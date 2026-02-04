@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Funny Love Game 💖</title>
-
 <style>
 :root{
   --pink:#ffd6e8;
   --hotpink:#ff5fa2;
   --white:#fff;
+  --red:#ff4d6d;
 }
 
 *{ box-sizing:border-box; font-family:'Comic Sans MS', cursive; margin:0; padding:0; }
@@ -33,11 +33,11 @@ body{
   position:relative;
   overflow:hidden;
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
-  flex-direction:column;
-  padding:20px;
   text-align:center;
+  padding:20px;
 }
 
 /* Password */
@@ -47,6 +47,7 @@ body{
   border:2px solid var(--hotpink);
   margin-top:15px;
   text-align:center;
+  width:70%;
 }
 .lock button{
   margin-top:12px;
@@ -101,19 +102,52 @@ body{
 /* Character animation */
 .character{
   display:inline-block;
+  cursor:pointer;
   animation:bounce 0.6s infinite;
+  user-select:none;
 }
 @keyframes bounce{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(-20px);}
 }
+
+/* Floating hearts */
+.heart{
+  position:absolute;
+  font-size:24px;
+  animation:floatUp 1.5s linear forwards;
+}
+@keyframes floatUp{
+  0%{transform:translateY(0) scale(1); opacity:1;}
+  100%{transform:translateY(-200px) scale(1.5); opacity:0;}
+}
+
+/* Confetti */
+.confetti{
+  position:absolute;
+  width:8px;
+  height:8px;
+  background:var(--red);
+  top:0;
+  animation:fall linear forwards;
+  border-radius:50%;
+}
+@keyframes fall{
+  0%{transform:translateY(0) rotate(0deg);}
+  100%{transform:translateY(300px) rotate(360deg); opacity:0;}
+}
 </style>
 </head>
-
 <body>
+
+<!-- Background Music -->
+<audio id="music" loop autoplay muted>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-soft-piano-499.mp3" type="audio/mpeg">
+</audio>
+
 <div class="phone">
 
-  <!-- Password screen -->
+  <!-- Password Screen -->
   <div class="lock" id="lock">
     <h1>Funny Love Game 💖</h1>
     <p>Enter password to play:</p>
@@ -145,22 +179,53 @@ function unlock(){
   if(input === correctPassword){
     document.getElementById("lock").style.display="none";
     document.getElementById("love-question").style.display="block";
-  } else {
-    alert("Wrong password 💔");
-  }
+    document.getElementById("music").muted=false; // unmute for mobile autoplay
+    document.getElementById("music").play();
+  } else { alert("Wrong password 💔"); }
 }
 
 function answerNo(){
   document.getElementById("message").innerHTML = "Wrong choice 😂";
-  // do not open game
 }
 
 function answerYes(){
   document.getElementById("message").innerHTML = "I Love You Too ❤️";
+  launchConfetti();
   setTimeout(()=>{
     document.getElementById("love-question").style.display="none";
     document.getElementById("game").style.display="flex";
   },800);
+}
+
+/* Click characters to spawn hearts */
+document.querySelectorAll(".character").forEach(char=>{
+  char.addEventListener("click", e=>{
+    for(let i=0;i<5;i++){
+      const heart = document.createElement("div");
+      heart.className="heart";
+      heart.innerText = ["💖","💗","❤️","💕"][Math.floor(Math.random()*4)];
+      heart.style.left = e.target.offsetLeft + 20 + Math.random()*20 + "px";
+      heart.style.top = e.target.offsetTop - 20 + "px";
+      document.querySelector("#game").appendChild(heart);
+      setTimeout(()=>heart.remove(),1500);
+    }
+  });
+});
+
+/* Confetti function */
+function launchConfetti(){
+  const game = document.getElementById("game");
+  for(let i=0;i<50;i++){
+    const conf = document.createElement("div");
+    conf.className="confetti";
+    conf.style.left = Math.random()*320 + "px";
+    conf.style.background = ["#ff5fa2","#ff85a2","#ffd6e8","#ff4d6d"][Math.floor(Math.random()*4)];
+    conf.style.width = 5 + Math.random()*5 + "px";
+    conf.style.height = 5 + Math.random()*5 + "px";
+    conf.style.animationDuration = 1 + Math.random()*1 + "s";
+    game.appendChild(conf);
+    setTimeout(()=>conf.remove(),2000);
+  }
 }
 </script>
 </body>
