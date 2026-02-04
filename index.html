@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funny Love Game 💖</title>
+
+<style>
+:root{
+  --pink:#ffd6e8;
+  --hotpink:#ff5fa2;
+  --white:#fff;
+}
+
+*{ box-sizing:border-box; font-family:'Comic Sans MS', cursive; margin:0; padding:0; }
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:var(--pink);
+  overflow:hidden;
+}
+
+/* Phone layout */
+.phone{
+  width:360px;
+  height:640px;
+  background:var(--white);
+  border-radius:30px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.2);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  padding:20px;
+  text-align:center;
+}
+
+/* Password */
+.lock input{
+  padding:10px;
+  border-radius:20px;
+  border:2px solid var(--hotpink);
+  margin-top:15px;
+  text-align:center;
+}
+.lock button{
+  margin-top:12px;
+  padding:10px 20px;
+  border:none;
+  border-radius:20px;
+  background:var(--hotpink);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* Love Question Buttons */
+#love-question{
+  display:none;
+  margin-top:20px;
+}
+#love-question button{
+  margin:10px;
+  padding:15px 25px;
+  border:none;
+  border-radius:20px;
+  background:var(--hotpink);
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+/* Message */
+#message{
+  margin-top:20px;
+  font-size:20px;
+  font-weight:bold;
+}
+
+/* Game Area */
+#game{
+  display:none;
+  margin-top:20px;
+  width:100%;
+  height:300px;
+  background:#ffe4f1;
+  border-radius:20px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* Cartoon characters */
+.character{
+  width:60px;
+  height:60px;
+  position:absolute;
+  bottom:10px;
+}
+.guy{
+  background:url('https://i.imgur.com/3b3F9Wi.png') no-repeat center/contain;
+  left:50px;
+}
+.lady{
+  background:url('https://i.imgur.com/NZ4r9qS.png') no-repeat center/contain;
+  right:50px;
+}
+
+/* Animations */
+@keyframes bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+}
+.bounce{ animation:bounce 0.6s infinite; }
+</style>
+</head>
+
+<body>
+<div class="phone">
+
+  <!-- Password screen -->
+  <div class="lock" id="lock">
+    <h1>Funny Love Game 💖</h1>
+    <p>Enter password to play:</p>
+    <input type="password" id="password" placeholder="Enter password 💗"/>
+    <button onclick="unlock()">Open Game</button>
+  </div>
+
+  <!-- Love Question -->
+  <div id="love-question">
+    <p>Do you love Matthew?</p>
+    <button onclick="answerYes()">Yes I do</button>
+    <button onclick="answerNo()">No I don't</button>
+    <div id="message"></div>
+  </div>
+
+  <!-- Game -->
+  <div id="game">
+    <div class="character guy bounce"></div>
+    <div class="character lady bounce"></div>
+  </div>
+
+</div>
+
+<script>
+const correctPassword = "love";
+
+function unlock(){
+  const input = document.getElementById("password").value;
+  if(input === correctPassword){
+    document.getElementById("lock").style.display="none";
+    document.getElementById("love-question").style.display="block";
+  } else {
+    alert("Wrong password 💔");
+  }
+}
+
+function answerNo(){
+  document.getElementById("message").innerHTML = "Wrong choice 😂";
+  // do not open game
+}
+
+function answerYes(){
+  document.getElementById("message").innerHTML = "I Love You Too ❤️";
+  setTimeout(()=>{
+    document.getElementById("love-question").style.display="none";
+    document.getElementById("game").style.display="block";
+  },800);
+}
+
+/* Simple animation for characters bouncing */
+const guy = document.querySelector(".guy");
+const lady = document.querySelector(".lady");
+setInterval(()=>{
+  guy.style.transform = `translateY(${Math.sin(Date.now()/200)*20}px)`;
+  lady.style.transform = `translateY(${Math.sin(Date.now()/200)*20}px)`;
+},20);
+</script>
+</body>
+</html>
