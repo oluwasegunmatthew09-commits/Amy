@@ -92,30 +92,21 @@ body{
   border-radius:20px;
   position:relative;
   overflow:hidden;
+  display:flex;
+  justify-content:space-around;
+  align-items:flex-end;
+  font-size:50px;
 }
 
-/* Cartoon characters */
+/* Character animation */
 .character{
-  width:60px;
-  height:60px;
-  position:absolute;
-  bottom:10px;
+  display:inline-block;
+  animation:bounce 0.6s infinite;
 }
-.guy{
-  background:url('https://i.imgur.com/3b3F9Wi.png') no-repeat center/contain;
-  left:50px;
-}
-.lady{
-  background:url('https://i.imgur.com/NZ4r9qS.png') no-repeat center/contain;
-  right:50px;
-}
-
-/* Animations */
 @keyframes bounce{
   0%,100%{transform:translateY(0);}
   50%{transform:translateY(-20px);}
 }
-.bounce{ animation:bounce 0.6s infinite; }
 </style>
 </head>
 
@@ -140,8 +131,8 @@ body{
 
   <!-- Game -->
   <div id="game">
-    <div class="character guy bounce"></div>
-    <div class="character lady bounce"></div>
+    <div class="character" id="guy">🧑‍💼</div>
+    <div class="character" id="lady">👩‍🦰</div>
   </div>
 
 </div>
@@ -168,17 +159,9 @@ function answerYes(){
   document.getElementById("message").innerHTML = "I Love You Too ❤️";
   setTimeout(()=>{
     document.getElementById("love-question").style.display="none";
-    document.getElementById("game").style.display="block";
+    document.getElementById("game").style.display="flex";
   },800);
 }
-
-/* Simple animation for characters bouncing */
-const guy = document.querySelector(".guy");
-const lady = document.querySelector(".lady");
-setInterval(()=>{
-  guy.style.transform = `translateY(${Math.sin(Date.now()/200)*20}px)`;
-  lady.style.transform = `translateY(${Math.sin(Date.now()/200)*20}px)`;
-},20);
 </script>
 </body>
 </html>
