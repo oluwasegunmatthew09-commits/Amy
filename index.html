@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Love Game 💖</title>
+<title>Aminatta Game 💖</title>
 
 <style>
 :root{
@@ -22,6 +22,7 @@ body{
   background:var(--pink);
 }
 
+/* Phone */
 .phone{
   width:360px;
   height:640px;
@@ -34,6 +35,7 @@ body{
   overflow:hidden;
 }
 
+/* Buttons */
 button{
   background:var(--hotpink);
   color:white;
@@ -45,6 +47,7 @@ button{
   cursor:pointer;
 }
 
+/* Screens */
 .screen{display:none;}
 .screen.active{display:block;}
 
@@ -56,6 +59,7 @@ input{
   text-align:center;
 }
 
+/* Game */
 #game{
   position:relative;
   width:100%;
@@ -72,6 +76,7 @@ input{
   cursor:pointer;
 }
 
+/* Hearts */
 .heart{
   position:absolute;
   animation:float 1.4s forwards;
@@ -80,6 +85,7 @@ input{
   to{transform:translateY(-150px) scale(1.5);opacity:0;}
 }
 
+/* Confetti */
 .confetti{
   position:absolute;
   width:8px;
@@ -91,6 +97,7 @@ input{
   to{transform:translateY(300px) rotate(360deg);opacity:0;}
 }
 
+/* Love messages */
 .popup{
   position:absolute;
   background:var(--hotpink);
@@ -106,9 +113,21 @@ input{
   100%{transform:scale(1) rotate(-10deg) translateY(-60px);opacity:0;}
 }
 
-#gift{font-size:60px;cursor:pointer;}
-#flower{font-size:90px;animation:bloom 1s forwards;}
-@keyframes bloom{from{transform:scale(0);}to{transform:scale(1);}}
+/* Gift box */
+#gift{
+  font-size:60px;
+  cursor:pointer;
+}
+
+/* Flower */
+#flower{
+  font-size:90px;
+  animation:bloom 1s forwards;
+}
+@keyframes bloom{
+  from{transform:scale(0);}
+  to{transform:scale(1);}
+}
 </style>
 </head>
 
@@ -120,14 +139,16 @@ input{
 
 <div class="phone">
 
+<!-- PASSWORD -->
 <div class="screen active" id="lock">
-  <h2>💖 Love Game 💖</h2>
+  <h2>💖 Aminatta Game 💖</h2>
   <p>Enter password</p>
   <input type="password" id="pw">
   <br>
   <button onclick="unlock()">Open</button>
 </div>
 
+<!-- LOVE QUESTION -->
 <div class="screen" id="question">
   <p>Do you love Matthew? 💘</p>
   <button onclick="yes()">Yes I do</button>
@@ -135,16 +156,19 @@ input{
   <div id="msg"></div>
 </div>
 
+<!-- GIFT -->
 <div class="screen" id="giftScreen">
   <p>Tap the box 🎁</p>
   <div id="gift" onclick="openGift()">🎁</div>
 </div>
 
+<!-- FLOWER -->
 <div class="screen" id="flowerScreen">
   <div id="flower">🌸</div>
   <p><b>I so much love you boo boo 💖</b></p>
 </div>
 
+<!-- GAME -->
 <div class="screen" id="gameScreen">
   <div id="game">
     <div class="character" id="boy">🧑‍💼</div>
@@ -155,19 +179,21 @@ input{
 </div>
 
 <script>
-const pw="aminatta";   // 🔐 PASSWORD CHANGED HERE
-
+const pw = "aminatta";
 let x=150,y=150;
 let bx=40,by=200,gx=260,gy=200;
 
 function unlock(){
-  if(pw===document.getElementById("pw").value){
+  const input = document.getElementById("pw").value.trim().toLowerCase();
+  if(input === pw){
     show("question");
     musicOn();
   } else alert("Wrong password 😂");
 }
 
-function no(){ msg.innerHTML="Wrong choice 😂"; }
+function no(){
+  msg.innerHTML="Wrong choice 😂";
+}
 
 function yes(){
   msg.innerHTML="I love you too ❤️";
@@ -192,6 +218,7 @@ function musicOn(){
   m.play();
 }
 
+/* Confetti */
 function confetti(){
   for(let i=0;i<40;i++){
     let c=document.createElement("div");
@@ -203,6 +230,7 @@ function confetti(){
   }
 }
 
+/* GAME */
 function startGame(){
   const game=document.getElementById("game");
   const boy=document.getElementById("boy");
@@ -225,6 +253,7 @@ function startGame(){
     by+=(y-by)*0.05;
     gx+=(bx-gx)*0.05;
     gy+=(by-gy)*0.05;
+
     boy.style.left=bx+"px"; boy.style.top=by+"px";
     girl.style.left=gx+"px"; girl.style.top=gy+"px";
   },20);
@@ -241,7 +270,14 @@ function startGame(){
     }
   };
 
-  const words=["My One and Only 💖","My Love ❤️","My Mama 🌸","Sweetheart 💕","My Boo Boo 😘"];
+  const words=[
+    "My One and Only 💖",
+    "My Love ❤️",
+    "My Mama 🌸",
+    "Sweetheart 💕",
+    "My Boo Boo 😘"
+  ];
+
   setInterval(()=>{
     let p=document.createElement("div");
     p.className="popup";
