@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Funny Love Game 💖</title>
+<title>Love Game 💖</title>
+
 <style>
 :root{
   --pink:#ffd6e8;
   --hotpink:#ff5fa2;
   --white:#fff;
-  --red:#ff4d6d;
 }
 
-*{ box-sizing:border-box; font-family:'Comic Sans MS', cursive; margin:0; padding:0; }
+*{box-sizing:border-box;margin:0;padding:0;font-family:"Comic Sans MS",cursive;}
 
 body{
   height:100vh;
@@ -20,101 +20,69 @@ body{
   justify-content:center;
   align-items:center;
   background:var(--pink);
-  overflow:hidden;
 }
 
-/* Phone layout */
+/* Phone */
 .phone{
   width:360px;
   height:640px;
-  background:var(--white);
+  background:white;
   border-radius:30px;
-  box-shadow:0 15px 30px rgba(0,0,0,0.2);
+  box-shadow:0 20px 40px rgba(0,0,0,.25);
+  padding:20px;
+  text-align:center;
   position:relative;
   overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
-  padding:20px;
 }
 
-/* Password */
-.lock input{
+/* Buttons */
+button{
+  background:var(--hotpink);
+  color:white;
+  border:none;
+  padding:12px 22px;
+  border-radius:25px;
+  font-size:16px;
+  margin:10px;
+  cursor:pointer;
+}
+
+/* Screens */
+.screen{display:none;}
+.screen.active{display:block;}
+
+input{
   padding:10px;
   border-radius:20px;
   border:2px solid var(--hotpink);
-  margin-top:15px;
-  text-align:center;
   width:70%;
-}
-.lock button{
-  margin-top:12px;
-  padding:10px 20px;
-  border:none;
-  border-radius:20px;
-  background:var(--hotpink);
-  color:white;
-  font-size:16px;
-  cursor:pointer;
+  text-align:center;
 }
 
-/* Love Question Buttons */
-#love-question{
-  display:none;
-  margin-top:20px;
-}
-#love-question button{
-  margin:10px;
-  padding:15px 25px;
-  border:none;
-  border-radius:20px;
-  background:var(--hotpink);
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-}
-
-/* Message */
-#message{
-  margin-top:20px;
-  font-size:20px;
-  font-weight:bold;
-}
-
-/* Game Area */
+/* Game */
 #game{
-  display:none;
-  margin-top:20px;
+  position:relative;
   width:100%;
   height:300px;
-  background:#ffe4f1;
+  background:#ffe6f1;
   border-radius:20px;
-  position:relative;
   overflow:hidden;
-  font-size:50px;
 }
 
-/* Characters */
 .character{
   position:absolute;
-  bottom:10px;
-  cursor:pointer;
-  user-select:none;
   font-size:50px;
-  transition: left 0.1s, top 0.1s;
+  transition:.1s;
+  cursor:pointer;
 }
 
-/* Floating hearts */
+/* Hearts */
 .heart{
   position:absolute;
-  font-size:24px;
-  animation:floatUp 1.5s linear forwards;
+  animation:float 1.4s forwards;
 }
-@keyframes floatUp{
-  0%{transform:translateY(0) scale(1); opacity:1;}
-  100%{transform:translateY(-200px) scale(1.5); opacity:0;}
+@keyframes float{
+  to{transform:translateY(-150px) scale(1.5);opacity:0;}
 }
 
 /* Confetti */
@@ -122,179 +90,64 @@ body{
   position:absolute;
   width:8px;
   height:8px;
-  background:var(--red);
-  top:0;
-  animation:fall linear forwards;
   border-radius:50%;
+  animation:fall 1.5s forwards;
 }
 @keyframes fall{
-  0%{transform:translateY(0) rotate(0deg);}
-  100%{transform:translateY(300px) rotate(360deg); opacity:0;}
+  to{transform:translateY(300px) rotate(360deg);opacity:0;}
 }
 
-/* Love popup messages */
-.love-popup{
+/* Love messages */
+.popup{
   position:absolute;
   background:var(--hotpink);
   color:white;
-  padding:5px 10px;
-  border-radius:15px;
-  font-size:14px;
-  pointer-events:none;
-  animation:bounceFade 1.5s forwards;
+  padding:6px 12px;
+  border-radius:20px;
+  animation:cartoon 1.6s forwards;
   white-space:nowrap;
-  opacity:0;
 }
-@keyframes bounceFade{
-  0%{transform:translateY(0) scale(0.8); opacity:0;}
-  30%{transform:translateY(-20px) scale(1); opacity:1;}
-  60%{transform:translateY(-10px) scale(1.1);}
-  100%{transform:translateY(-50px) scale(1); opacity:0;}
+@keyframes cartoon{
+  0%{transform:scale(.3) rotate(-15deg);opacity:0;}
+  40%{transform:scale(1.2) rotate(10deg);opacity:1;}
+  100%{transform:scale(1) rotate(-10deg) translateY(-60px);opacity:0;}
+}
+
+/* Gift box */
+#gift{
+  font-size:60px;
+  cursor:pointer;
+}
+
+/* Flower */
+#flower{
+  font-size:90px;
+  animation:bloom 1s forwards;
+}
+@keyframes bloom{
+  from{transform:scale(0);}
+  to{transform:scale(1);}
 }
 </style>
 </head>
+
 <body>
 
-<!-- Background Music -->
-<audio id="music" loop autoplay muted>
-  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-soft-piano-499.mp3" type="audio/mpeg">
+<audio id="music" autoplay muted loop>
+  <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-soft-piano-499.mp3">
 </audio>
 
 <div class="phone">
 
-  <!-- Password Screen -->
-  <div class="lock" id="lock">
-    <h1>Funny Love Game 💖</h1>
-    <p>Enter password to play:</p>
-    <input type="password" id="password" placeholder="Enter password 💗"/>
-    <button onclick="unlock()">Open Game</button>
-  </div>
-
-  <!-- Love Question -->
-  <div id="love-question">
-    <p>Do you love Matthew?</p>
-    <button onclick="answerYes()">Yes I do</button>
-    <button onclick="answerNo()">No I don't</button>
-    <div id="message"></div>
-  </div>
-
-  <!-- Game -->
-  <div id="game">
-    <div class="character" id="guy">🧑‍💼</div>
-    <div class="character" id="lady">👩‍🦰</div>
-  </div>
-
+<!-- PASSWORD -->
+<div class="screen active" id="lock">
+  <h2>💖 Love Game 💖</h2>
+  <p>Enter password</p>
+  <input type="password" id="pw">
+  <br>
+  <button onclick="unlock()">Open</button>
 </div>
 
-<script>
-const correctPassword = "love";
-
-function unlock(){
-  const input = document.getElementById("password").value;
-  if(input === correctPassword){
-    document.getElementById("lock").style.display="none";
-    document.getElementById("love-question").style.display="block";
-    const music = document.getElementById("music");
-    music.muted = false;
-    music.play();
-  } else { alert("Wrong password 💔"); }
-}
-
-function answerNo(){
-  document.getElementById("message").innerHTML = "Wrong choice 😂";
-}
-
-function answerYes(){
-  document.getElementById("message").innerHTML = "I Love You Too ❤️";
-  launchConfetti();
-  setTimeout(()=>{
-    document.getElementById("love-question").style.display="none";
-    document.getElementById("game").style.display="block";
-    startGame();
-  },800);
-}
-
-/* Tap characters to spawn hearts */
-document.querySelectorAll(".character").forEach(char=>{
-  char.addEventListener("click", e=>{
-    for(let i=0;i<5;i++){
-      const heart = document.createElement("div");
-      heart.className="heart";
-      heart.innerText = ["💖","💗","❤️","💕"][Math.floor(Math.random()*4)];
-      heart.style.left = e.target.offsetLeft + 20 + Math.random()*20 + "px";
-      heart.style.top = e.target.offsetTop - 20 + "px";
-      document.querySelector("#game").appendChild(heart);
-      setTimeout(()=>heart.remove(),1500);
-    }
-  });
-});
-
-/* Confetti function */
-function launchConfetti(){
-  const game = document.getElementById("game");
-  for(let i=0;i<50;i++){
-    const conf = document.createElement("div");
-    conf.className="confetti";
-    conf.style.left = Math.random()*320 + "px";
-    conf.style.background = ["#ff5fa2","#ff85a2","#ffd6e8","#ff4d6d"][Math.floor(Math.random()*4)];
-    conf.style.width = 5 + Math.random()*5 + "px";
-    conf.style.height = 5 + Math.random()*5 + "px";
-    conf.style.animationDuration = 1 + Math.random()*1 + "s";
-    game.appendChild(conf);
-    setTimeout(()=>conf.remove(),2000);
-  }
-}
-
-/* Game logic: characters follow pointer and love messages */
-function startGame(){
-  const guy = document.getElementById("guy");
-  const lady = document.getElementById("lady");
-  const game = document.getElementById("game");
-  let pointerX = 180, pointerY = 200;
-
-  // Move characters toward pointer
-  setInterval(()=>{
-    let gx = parseFloat(guy.style.left) || 50;
-    let gy = parseFloat(guy.style.top) || 200;
-    let lx = parseFloat(lady.style.left) || 250;
-    let ly = parseFloat(lady.style.top) || 200;
-
-    gx += (pointerX - gx)*0.05;
-    gy += (pointerY - gy)*0.05;
-    lx += (pointerX - lx)*0.05;
-    ly += (pointerY - ly)*0.05;
-
-    guy.style.left = gx + "px";
-    guy.style.top = gy + "px";
-    lady.style.left = lx + "px";
-    lady.style.top = ly + "px";
-  },20);
-
-  // Track mouse / touch
-  game.addEventListener("mousemove", e=>{
-    const rect = game.getBoundingClientRect();
-    pointerX = e.clientX - rect.left - 25;
-    pointerY = e.clientY - rect.top - 25;
-  });
-  game.addEventListener("touchmove", e=>{
-    e.preventDefault();
-    const rect = game.getBoundingClientRect();
-    pointerX = e.touches[0].clientX - rect.left - 25;
-    pointerY = e.touches[0].clientY - rect.top - 25;
-  }, {passive:false});
-
-  // Random love messages
-  const messages = ["💖 I adore you!","❤️ You are my sunshine!","💕 Kiss me!","💗 Always yours!"];
-  setInterval(()=>{
-    const msg = document.createElement("div");
-    msg.className="love-popup";
-    msg.innerText = messages[Math.floor(Math.random()*messages.length)];
-    msg.style.left = Math.random()*250 + "px";
-    msg.style.top = Math.random()*200 + "px";
-    game.appendChild(msg);
-    setTimeout(()=>msg.remove(),1500);
-  },1500);
-}
-</script>
-</body>
-</html>
+<!-- LOVE QUESTION -->
+<div class="screen" id="question">
+  <
